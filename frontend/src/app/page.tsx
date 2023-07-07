@@ -1,9 +1,10 @@
+import HeroTop from "@/modules/heroTop/HeroTop";
 
 
 export default function Home() {
   return (
-    <main className="bg-red-300">
-      Hello world
+    <main>
+      <HeroTop/>
     </main>
   )
 }

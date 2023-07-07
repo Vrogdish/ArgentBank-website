@@ -12,7 +12,7 @@ interface Props {
 
 export default function Navbar({ className }: Props) {
   const userName = "Tony";
-  const islogged = true;
+  const islogged = false;
 
   return (
     <nav className={`font-bold px-2 flex items-center gap-4 ${className} `}>
