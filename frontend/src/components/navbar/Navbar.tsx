@@ -28,7 +28,7 @@ export default function Navbar({ className }: Props) {
           </Link>
         </>
       ) : (
-        <Link href={"#"} className="flex items-center gap-2">
+        <Link href={"/signIn"} className="flex items-center gap-2">
           <FontAwesomeIcon icon={faCircleUser} className="h-4" />
           <div>Sign In</div>
         </Link>

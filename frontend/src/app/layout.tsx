@@ -1,6 +1,7 @@
 import Header from '@/modules/header/Header'
 import './globals.css'
 import { Inter, Roboto} from 'next/font/google'
+import Footer from '@/modules/footer/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 const roboto = Roboto({weight:"400" , subsets:["latin"]})
@@ -17,9 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={roboto.className}>
+      <body className={`${roboto.className} min-h-screen flex flex-col`}>
         <Header/>
         {children}
+        <Footer/>
       </body>
     </html>
   )
