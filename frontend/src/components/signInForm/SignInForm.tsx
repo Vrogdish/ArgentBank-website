@@ -4,9 +4,10 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { auth } from "@/api/auth";
 
-type Inputs = {
-  username: string;
+export type Inputs = {
+  email: string;
   password: string;
 };
 
@@ -22,7 +23,14 @@ export default function SignInForm({ className }: Props) {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (inputs) => {
+    const user = await auth(inputs);
+    console.log("user : ", user);
+
+    user?.status === 200
+      ? (sessionStorage.setItem("token", user.body.token), alert(user.message))
+      : alert(user?.message);
+  };
 
   return (
     <div
@@ -31,13 +39,13 @@ export default function SignInForm({ className }: Props) {
       <FontAwesomeIcon icon={faCircleUser} className="h-4" />
       <h1 className="text-2xl font-bold my-5">Sign In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="username" className="font-bold">
+        <label htmlFor="email" className="font-bold">
           Username
         </label>
         <input
-          type="text"
-          id="username"
-          {...register("username")}
+          type="email"
+          id="email"
+          {...register("email")}
           className="w-full border mb-2 p-1"
         />
         <label htmlFor="password" className="font-bold">
