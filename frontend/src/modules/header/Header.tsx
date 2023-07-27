@@ -1,11 +1,19 @@
+"use client"
+
 import React from "react";
 import Image from "next/image";
 import Navbar from "@/components/navbar/Navbar";
 import Link from "next/link";
+import { Provider } from "react-redux";
+import { mainStore } from "@/redux/Store";
 
 export default function Header() {
+  
+
+
   return (
     <header className="flex justify-between h-16 items-center px-5">
+      <Provider store={mainStore}>
       <Link href={"/"}>
         <Image
           src={"/images/argentBankLogo.png"}
@@ -16,6 +24,7 @@ export default function Header() {
         />
       </Link>
       <Navbar />
+      </Provider>
     </header>
   );
 }

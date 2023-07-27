@@ -1,8 +1,9 @@
 import { Inputs } from "@/components/signInForm/SignInForm";
 
-export const auth = async (UserData:Inputs)=>{
+export const auth = async (userData:Inputs)=>{
 try {
-const body = JSON.stringify(UserData)
+const body = JSON.stringify(userData)
+
 
 const reponse = await fetch("http://localhost:3001/api/v1/user/login", {
     headers: {

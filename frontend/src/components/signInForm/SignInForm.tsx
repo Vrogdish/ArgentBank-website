@@ -5,6 +5,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { auth } from "@/api/auth";
+import { useDispatch } from "react-redux";
+// import { authState } from "@/redux/authSlice";
+import { getProfil } from "@/api/getProfil";
+import { mainStore } from "@/redux/Store";
+import { authState } from "@/redux/authSlice";
+import { profilState } from "@/redux/profilSlice";
 
 export type Inputs = {
   email: string;
@@ -23,13 +29,24 @@ export default function SignInForm({ className }: Props) {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = async (inputs) => {
-    const user = await auth(inputs);
-    console.log("user : ", user);
+  const dispatch = useDispatch();
 
-    user?.status === 200
-      ? (sessionStorage.setItem("token", user.body.token), alert(user.message))
-      : alert(user?.message);
+ 
+
+  const onSubmit: SubmitHandler<Inputs> = async (inputs) => {
+    const login = await auth(inputs);
+
+    if (login?.status === 200) {
+      sessionStorage.setItem("token", login.body.token);
+      // dispatch(authState(true));
+      mainStore.dispatch(authState(true))
+      const profil =  await getProfil();
+      mainStore.dispatch(profilState(profil.body))
+      alert(login.message);
+      console.log(profil);
+    } else {
+      alert(login?.message);
+    }
   };
 
   return (
