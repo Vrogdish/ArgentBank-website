@@ -7,3 +7,17 @@
 html {
     color: #2c3e50;
 }
+
+button {
+    border-bottom: solid 2px black;
+    border-right: solid 2px black;
+    border-left : solid 2px transparent;
+    border-top : solid 2px transparent;
+}
+
+button:active {
+    border-bottom: solid 2px transparent;
+    border-right: solid 2px transparent;
+    border-left : solid 2px black;
+    border-top : solid 2px black;
+}

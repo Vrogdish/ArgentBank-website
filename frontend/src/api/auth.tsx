@@ -1,6 +1,5 @@
-import { Inputs } from "@/components/signInForm/SignInForm";
 
-export const auth = async (userData:Inputs)=>{
+export const auth = async (userData:{email : string, password : string})=>{
 try {
 const body = JSON.stringify(userData)
 

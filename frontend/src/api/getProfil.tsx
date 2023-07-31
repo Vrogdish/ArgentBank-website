@@ -13,7 +13,7 @@ export const getProfil = async () => {
         
     })
  
-  console.log(reponse)
+ 
   const result = await reponse.json()
 
   return result

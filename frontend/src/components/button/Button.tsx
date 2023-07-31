@@ -7,7 +7,7 @@ interface Props {
 
 export default function Button({children,className}:Props) {
   return (
-    <button className={`bg-primary w-full ${className}`}>
+    <button className={`bg-primary ${className}`}>
         {children}
     </button>
   )
