@@ -12,7 +12,7 @@ import { authState } from "@/redux/authSlice";
 import { loadProfilState } from "@/redux/profilSlice";
 import { useRouter } from "next/navigation";
 
-export type Inputs = {
+type Inputs = {
   email: string;
   password: string;
   remember: boolean;

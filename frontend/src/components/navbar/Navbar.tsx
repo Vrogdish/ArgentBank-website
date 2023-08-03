@@ -29,7 +29,7 @@ export default function Navbar({ className }: Props) {
   };
 
   const auth: boolean = useSelector((state: any) => state.authState.isLogged);
-  const userName = useSelector((state : any ) => state.profilState.firstName)
+  const userName = useSelector((state : any ) => state.profilState.userName)
 
   return (
     <nav className={`font-bold px-2 flex items-center gap-4 ${className} `}>

@@ -15,7 +15,7 @@ export const getProfil = async () => {
  
  
   const result = await reponse.json()
-
+    console.log(result)
   return result
 
  } catch (error) {

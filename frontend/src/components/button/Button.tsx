@@ -3,11 +3,12 @@ import React, { ReactNode } from 'react'
 interface Props {
     children : ReactNode
     className? : string
+    handleClick? : Function
 }
 
-export default function Button({children,className}:Props) {
+export default function Button({children,className,handleClick = ()=>{}}:Props) {
   return (
-    <button className={`bg-primary ${className}`}>
+    <button type='button' className={`bg-primary ${className}`} onClick={()=> {handleClick()} }>
         {children}
     </button>
   )

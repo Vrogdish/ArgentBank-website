@@ -43,8 +43,12 @@ export const profilSlice = createSlice({
       state.updateAt = "";
       state.userName = "";
     },
+    updateUsernameState : (state, action ) => {
+      state.userName = action.payload
+    }
   },
 });
 
 export const { loadProfilState } = profilSlice.actions;
 export const { resetProfilState} = profilSlice.actions
+export const {updateUsernameState} = profilSlice.actions

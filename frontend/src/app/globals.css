@@ -21,3 +21,9 @@ button:active {
     border-left : solid 2px black;
     border-top : solid 2px black;
 }
+
+
+
+input:disabled {
+    background-color: lightgray;
+}
