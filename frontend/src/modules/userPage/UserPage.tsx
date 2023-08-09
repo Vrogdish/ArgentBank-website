@@ -4,7 +4,7 @@ import Transactions from "@/components/transactions/Transactions";
 import Welcome from "@/components/welcome/Welcome";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import UserEditor from "../userEditor/UserEditor";
+import UserEditor from "../../components/userEditor/UserEditor";
 
 export default function UserPage() {
   const [editorMode, setEditorMode] = useState(false);

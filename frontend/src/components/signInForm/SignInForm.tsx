@@ -6,9 +6,9 @@ import { ErrorMessage } from "@hookform/error-message";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { auth } from "@/api/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProfil } from "@/api/getProfil";
-import { authState } from "@/redux/authSlice";
+import { authState, tokenState } from "@/redux/authSlice";
 import { loadProfilState } from "@/redux/profilSlice";
 import { useRouter } from "next/navigation";
 
@@ -26,37 +26,43 @@ export default function SignInForm({ className }: Props) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
   // init redux dispatch and router() for redirect
   const dispatch = useDispatch();
   const router = useRouter();
+  // const token = useSelector((state : AuthState) => state.authState.token)
 
-  //  get default inputs values if saved
-  const defautEmail = localStorage.getItem("email");
-  const defaultPassword = localStorage.getItem("password");
 
   const onSubmit: SubmitHandler<Inputs> = async (inputs) => {
     const userData = { email: inputs.email, password: inputs.password };
 
     // save email and password if remember checked
+    const rememberMe = (tokenToSave:string) => {
     if (inputs.remember === true) {
-      localStorage.setItem("email", inputs.email);
-      localStorage.setItem("password", inputs.password);
+      
+      localStorage.setItem("token",tokenToSave);
+      
     } else {
       localStorage.clear();
     }
+  }
 
     // connect
     const login = await auth(userData);
     if (login?.status === 200) {
-      sessionStorage.setItem("token", login.body.token);
+      // sessionStorage.setItem("token", login.body.token);
+      dispatch(tokenState(login.body.token));
       dispatch(authState(true));
-      const profil = await getProfil();
-      dispatch(loadProfilState(profil.body));
-      router.push(`/user/${profil.body.firstName}`);
+      rememberMe(login.body.token)
+      const profil = await getProfil(login.body.token);
+
+      if (profil?.status === 200) {
+        dispatch(loadProfilState(profil.body));
+        
+        router.push(`/user`);
+      }
     } else {
       alert(login?.message);
     }
@@ -75,7 +81,6 @@ export default function SignInForm({ className }: Props) {
         <input
           type="email"
           id="email"
-          defaultValue={defautEmail ? defautEmail : ""}
           {...register("email", {
             required: "Email is required",
           })}
@@ -87,7 +92,6 @@ export default function SignInForm({ className }: Props) {
         <input
           type="password"
           id="password"
-          defaultValue={defaultPassword ? defaultPassword : ""}
           {...register("password", {
             required: "Password is required",
           })}

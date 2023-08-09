@@ -2,6 +2,7 @@
 
 import { updateProfil } from "@/api/updateProfil";
 import { updateUsernameState } from "@/redux/profilSlice";
+import { AuthState, ProfilState } from "@/types/types";
 import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -17,8 +18,8 @@ interface Props {
 }
 
 export default function UserEditor({ closeEditor, className }: Props) {
-  const userProfil = useSelector((state: any) => state.profilState);
-
+  const userProfil = useSelector((state: ProfilState) => state.profilState);
+  const token = useSelector((state : AuthState)=> state.authState.token)
   const dispatch = useDispatch();
 
   const {
@@ -29,13 +30,12 @@ export default function UserEditor({ closeEditor, className }: Props) {
 
   const onSubmit: SubmitHandler<Inputs> = async (inputs) => {
     const newUsername = { userName: inputs.username };
-    const updatedUsername = await updateProfil(newUsername);
-
-    console.log(updatedUsername);
+    const updatedUsername = await updateProfil(newUsername,token);
 
     if (updatedUsername?.status === 200) {
       alert(updatedUsername.message);
       dispatch(updateUsernameState(updatedUsername.body.userName));
+      closeEditor()
     }
   };
 

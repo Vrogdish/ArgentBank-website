@@ -1,5 +1,7 @@
-export const updateProfil = async (username:{userName:string}) => {
-    const token = sessionStorage.getItem("token");
+import { ProfilDatas } from "@/types/types";
+
+export const updateProfil = async (username:{userName:string},token : string) => {
+    // const token = sessionStorage.getItem("token");
     const body = JSON.stringify(username)
 
     try {
@@ -16,16 +18,7 @@ export const updateProfil = async (username:{userName:string}) => {
         const result : {
             status:number,
             message : string,
-            body : {
-                createdAT : string,
-                email : string, 
-                firstName : string,
-                id : string, 
-                lastName:string,
-                updatedAt:string,
-                userName:string
-
-            }
+            body : ProfilDatas
         } = await response.json()
 
         return result

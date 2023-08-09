@@ -1,5 +1,11 @@
-import { authState } from "@/redux/authSlice";
-import { resetProfilState } from "@/redux/profilSlice";
+import { getProfil } from "@/api/getProfil";
+import { authState, tokenState } from "@/redux/authSlice";
+import {
+  loadProfilState,
+  
+  resetProfilState,
+} from "@/redux/profilSlice";
+import { AuthState, ProfilState } from "@/types/types";
 import {
   faCircleUser,
   faRightFromBracket,
@@ -15,33 +21,52 @@ interface Props {
 }
 
 export default function Navbar({ className }: Props) {
-
-  const router = useRouter()
-
+  const router = useRouter();
   const dispatch = useDispatch();
 
+  // logout
   const handleclick = () => {
-    confirm("Are you sure to diconnect ?")
-    router.replace("/")
+    confirm("Are you sure to diconnect ?");
+    router.replace("/");
     dispatch(authState(false));
-    dispatch(resetProfilState())
-    sessionStorage.clear()
+    dispatch(tokenState(""));
+    dispatch(resetProfilState());
+    localStorage.clear();
   };
 
-  const auth: boolean = useSelector((state: any) => state.authState.isLogged);
-  const userName = useSelector((state : any ) => state.profilState.userName)
+  // autoConnect if remember
+  const autoConnect = async (token: string) => {
+    dispatch(tokenState(token));
+
+    const profil = await getProfil(token);
+    if (profil?.status === 200) {
+      dispatch(loadProfilState(profil?.body));
+      dispatch(authState(true));
+    }
+  };
+
+  const localStorageToken = localStorage.getItem("token");
+  localStorageToken ? autoConnect(localStorageToken) : null;
+
+  const auth = useSelector((state: AuthState) => state.authState.isLogged);
+  const userName = useSelector(
+    (state: ProfilState) => state.profilState.userName
+  );
 
   return (
     <nav className={`font-bold px-2 flex items-center gap-4 ${className} `}>
       {auth ? (
         <>
-          <Link href={`/user/${userName}`} className="flex items-center gap-2">
+          <Link href={`/user`} className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircleUser} className="h-4" />
             <div>{userName}</div>
           </Link>
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleclick()}>
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => handleclick()}
+          >
             <FontAwesomeIcon icon={faRightFromBracket} className="h-4" />
-            <div >Sign Out</div>
+            <div>Sign Out</div>
           </div>
         </>
       ) : (

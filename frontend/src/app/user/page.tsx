@@ -1,6 +1,5 @@
 "use client";
-import Transactions from "@/components/transactions/Transactions";
-import Welcome from "@/components/welcome/Welcome";
+
 import UserPage from "@/modules/userPage/UserPage";
 
 import { mainStore } from "@/redux/Store";
