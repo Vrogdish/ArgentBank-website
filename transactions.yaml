@@ -1,70 +1,183 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Bank Argent API documentation
   description: Contains all available API endpoints in this codebase
-  version: '1.0.0'
-  termsOfService: 'http://swagger.io/terms/'
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
 host: localhost:3001
 basePath: /api/v1
 schemes:
-  - http
+- "https"
+- "http"
 paths:
   /user/account/checking:
     get:
-      security:
-        - Bearer: []
       tags:
-        - User Module
-      summary : User checking API
-      description : API for fetching a user account
+      - "account module"
+      summary: "User checking account API"
+      description: "API for fetching a user account"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "User account retrieved Successfully"
+          schema:
+            type : "array"
+            items: 
+             $ref: "#/definitions/Transaction"
+        "400":
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"
+      security:
+      - Bearer: []
+  /user/account/checking/{id} :
+    put : 
+      tags : 
+      - "account module"
+      summary : "Updated transaction"
+      description : "API for update transaction's description"
       produces : 
-        - application/json
-      responses : 
+      - "application/json"
+      parameters : 
+        - name : "id"
+          in : "path"
+          description : "Id of transaction to update"
+          required : true
+          type: "string"
+        - in : "body"
+          name : "body"
+          description : "New description"
+          required : true
+          schema : 
+            type : "string"
+      responses :
         "200" : 
-          description : User account retrieved Successfully
-          shema: 
-            $ref: "#/definitions/AccountResponse"
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
+          description : "update successfull"
+        "400" :  
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"  
+
+
   /user/account/savings:
     get:
-      security:
-        - Bearer: []
       tags:
-        - User Module
-      summary : User savings API
-      description : API for fetching a user account
+      - "account module"
+      summary: "User savings account API"
+      description: "API for fetching a user account"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "User account retrieved Successfully"
+          schema:
+            type : "array"
+            items: 
+             $ref: "#/definitions/Transaction"
+        "400":
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"
+      security:
+      - Bearer: []
+  /user/account/saving/{id} :
+    put : 
+      tags : 
+      - "account module"
+      summary : "Updated transaction"
+      description : "API for update transaction's description"
       produces : 
-        - application/json
-      responses : 
+      - "application/json"
+      parameters : 
+        - name : "id"
+          in : "path"
+          description : "Id of transaction to update"
+          required : true
+          type: "string"
+        - in : "body"
+          name : "body"
+          description : "New description"
+          required : true
+          schema : 
+            type : "string"
+      responses :
         "200" : 
-          description : User account retrieved Successfully
-          shema: 
-            $ref: "#/definitions/AccountResponse"
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
+          description : "update successfull"
+        "400" :  
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"       
+
   /user/account/creditCard:
     get:
-      security:
-        - Bearer: []
       tags:
-        - User Module
-      summary : User creditCard API
-      description : API for fetching a user account
+      - "account module"
+      summary: "User credit card account API"
+      description: "API for fetching a user account"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "User account retrieved Successfully"
+          schema:
+            type : "array"
+            items: 
+             $ref: "#/definitions/Transaction"
+        "400":
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"
+      security:
+      - Bearer: []
+  /user/account/creditCard/{id} :
+    put : 
+      tags : 
+      - "account module"
+      summary : "Updated transaction"
+      description : "API for update transaction's description"
       produces : 
-        - application/json
-      responses : 
+      - "application/json"
+      parameters : 
+        - name : "id"
+          in : "path"
+          description : "Id of transaction to update"
+          required : true
+          type: "string"
+        - in : "body"
+          name : "body"
+          description : "New description"
+          required : true
+          schema : 
+            type : "string"
+      responses :
         "200" : 
-          description : User account retrieved Successfully
-          shema: 
-            $ref: "#/definitions/AccountResponse"
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
+          description : "update successfull"
+        "400" :  
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"  
 
-      
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+definitions:
+   Transaction:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      title:
+        type: "string"
+      description : 
+        type : "string"
+      category :
+        type : "string"
+      date :
+        type : "string"
+
+        
+        
+
